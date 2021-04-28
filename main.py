@@ -1,81 +1,93 @@
 from dotenv import load_dotenv
+import os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from apidata import get_headlines
+from apidata import get_headlines,search_headline
 
+load_dotenv()
 
 # Getting News Data
+headlinesNum = ""
 
-number = 0
+helptext = """
+  Hi there 👋,
+  I provide technews 
+
+  1. Type /news **category** to recieve top 5 headlines of that category (change every hour)
+     categories : (business entertainment general health science sports technology)
+ 
+  for example : /news sports
+
+  2. Type /search **search query** to search for a headline
+"""
 
 
-# function to handle the /start command
+# function handle and make a text string for news article
+def get_articles_as_text(articles):
+  # Getting news for n articles
+  article_string="\n Daily Headlines \n"
+  for n in articles:
+    name = n['source']['name']
+    author = n['author']
+    title = n['title']
+    url = n['url']
+    article_string += f""" 
+    title: {title}  
+    author: {author} 
+    url: {url} 
+    Provided By {name} 
+    -------- """
+  return article_string
+
+
 def start(update, context):
-    update.message.reply_text('Hi there, \n 1. set the number of headlines you wish to recieve by /set_number \n 2. Type /news to recieve 5 headlines')
+    update.message.reply_text(helptext)
 
-# function to handle the /help command
 def help(update, context):
-    update.message.reply_text('Hi there, \n 1. set the number of headlines you wish to recieve by /set_number \n 2. Type /news to recieve 5 headlines')
+    update.message.reply_text(helptext)
 
 
-def set_number(update, context):
-    update.message.reply_text('currently not working')
+def search_for_news(update, context):
+    search_q = update.message.text
+    newsarr = search_headline(search_q)
+    reply_news = get_articles_as_text(newsarr)
+    update.message.reply_text(f'{reply_news}')
 
 def news(update, context):
-    number=0
-    if number==0:
-        update.message.reply_text('using default value as 5')
-        try:
-          articles = get_headline("5")
-          # Getting news for 5 articles
-          article_string="\n Daily Headlines \n"
-          for n in articles:
-            name = n['source']['name']
-            author = n['author']
-            title = n['title']
-            url = n['url']
-            article_string += f'title:{title} \n author:{author} \n url:{url} \n Provided By{name} \n -------- \n'
+    category_q = update.message.text
+    try:
+      headlineArr = get_headlines(category_q,"5")
+      reply_news = get_articles_as_text(headlineArr)
+      update.message.reply_text(f'{reply_news}')
+    except :
+      print(error) 
+      update.message.reply_text('📡 Nothing Check your internet 📡')
 
-          update.message.reply_text(f'{article_string}')
-        except :
-          print(error) 
-          update.message.reply_text('📡 Nothing Check your internet 📡')
 
-    else:
-        update.message.reply_text('📡 Nothing Check your internet 📡')
-
-# function to handle errors occured in the dispatcher 
 def error(update, context):
     update.message.reply_text('Ummm I think something is not fine')
 
-# function to handle normal text 
 def text(update, context):
     text_received = update.message.text
+    update.message.reply_text(f'did you say {text_received}')
 
 def main():
   TOKEN = os.getenv('BOT_TOKEN') 
 
-    # create the updater, that will automatically create also a dispatcher and a queue to 
-    # make them dialoge
-    updater = Updater(TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
+  updater = Updater(TOKEN, use_context=True)
+  dispatcher = updater.dispatcher
 
-    # add handlers for start and help commands
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help))
-    dispatcher.add_handler(CommandHandler("set_number", set_number))
-    dispatcher.add_handler(CommandHandler("news", news))
+  dispatcher.add_handler(CommandHandler("start", start))
+  dispatcher.add_handler(CommandHandler("help", help))
+  dispatcher.add_handler(CommandHandler("search", search_for_news))
+  dispatcher.add_handler(CommandHandler("news", news))
 
-    # add an handler for normal text (not commands)
-    dispatcher.add_handler(MessageHandler(Filters.text, text))
+  dispatcher.add_handler(MessageHandler(Filters.text, text))
 
-    # add an handler for errors
-    dispatcher.add_error_handler(error)
+  dispatcher.add_error_handler(error)
 
-    # start your shiny new bot
-    updater.start_polling()
+  updater.start_polling()
 
-    # run the bot until Ctrl-C
-    updater.idle()
+  updater.idle()
 
 if __name__ == '__main__':
     main()

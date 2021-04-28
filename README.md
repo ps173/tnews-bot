@@ -1,8 +1,21 @@
-# TNEWS BOT
+# TNEWS BOT 🤖
 
-Telegram Bot for providing tech-related news with newsapi 
+Telegram Bot using [Telegram-Python](https://python-telegram-bot.org/) for providing news with [newsapi](https://newsapi.org/)  
 
-# TODO
+### Initializing  
+In telegram search for t173bot and select tnewsbot  
 
- - [x] Fetching api and getting data
- - [ ] Better bot
+### Bot Commands 💬 
+ - /start  
+ - /help  
+ - /search (search query)  
+ - /news (category)  
+
+
+# TODO ✅
+
+ - [x] Fetching api and getting data  
+ - [x] Better bot  
+ 
+
+More Features coming soon...
