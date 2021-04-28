@@ -1,5 +1,5 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from apidata import get_headlines,search_headline
 
@@ -10,12 +10,12 @@ headlinesNum = ""
 
 helptext = """
   Hi there 👋,
-  I provide technews 
+  I am tbot and I provide news to you
 
   1. Type /news **category** to recieve top 5 headlines of that category (change every hour)
      categories : (business entertainment general health science sports technology)
  
-  for example : /news sports
+  for example : /news technology
 
   2. Type /search **search query** to search for a headline
 """
@@ -24,7 +24,7 @@ helptext = """
 # function handle and make a text string for news article
 def get_articles_as_text(articles):
   # Getting news for n articles
-  article_string="\n Daily Headlines \n"
+  article_string="\n Headlines \n"
   for n in articles:
     name = n['source']['name']
     author = n['author']
