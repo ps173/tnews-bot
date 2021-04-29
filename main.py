@@ -35,14 +35,16 @@ def search_for_news(update, context):
 
 def news(update, context):
     category_q = update.message.text
-    print(category_q)
-    try:
-      headlineArr = get_headlines(category_q,"5")
-      reply_news = get_articles_as_text(headlineArr)
-      update.message.reply_text(f'{reply_news}')
-    except :
-      print(error) 
-      update.message.reply_text('📡 Nothing Check your internet 📡')
+    if "/news" in category_q:
+      category_q = category_q[5:]
+      print(category_q)
+      try:
+        headlineArr = get_headlines(category_q,"5")
+        reply_news = get_articles_as_text(headlineArr)
+        update.message.reply_text(f'{reply_news}')
+      except :
+        print(error) 
+        update.message.reply_text('📡 Nothing Check your internet 📡')
 
 
 def error(update, context):
