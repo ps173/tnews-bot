@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from apidata import get_headlines,search_headline
+from apidata import get_headlines,search_headline,get_articles_as_text
 
 load_dotenv()
 
@@ -19,25 +19,6 @@ helptext = """
 
   2. Type /search **search query** to search for a headline
 """
-
-
-# function handle and make a text string for news article
-def get_articles_as_text(articles):
-  # Getting news for n articles
-  article_string="\n 🗞 Headlines🗞 \n"
-  for n in articles:
-    name = n['source']['name']
-    author = n['author']
-    title = n['title']
-    url = n['url']
-    article_string += f""" 
-    📩 Title: {title}  
-    ✒️ Author: {author} 
-    🌐 Url: {url} 
-    Provided By {name} 
-    -------- """
-  return article_string
-
 
 def start(update, context):
     update.message.reply_text(helptext)
