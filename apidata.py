@@ -31,5 +31,23 @@ def search_headline(query):
 #     url = articles[n]['url']
 #     return name,author,title,url
 
+def get_articles_as_text(articles):
+  # Getting news for n articles
+  article_string="\n 🗞 Headlines🗞 \n"
+  for n in articles:
+    name = n['source']['name']
+    author = n['author']
+    title = n['title']
+    url = n['url']
+    article_string += f""" 
+    📩 Title: {title}  
+    ✒️ Author: {author} 
+    🌐 Url: {url} 
+    Provided By {name} 
+    -------- """
+  return article_string
+
 if __name__ == "__main__":
-     print(get_headlines("sports","1"))
+     articles=get_headlines("technology","1")
+     string = get_articles_as_text(articles) 
+     print(string)

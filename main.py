@@ -24,16 +24,16 @@ helptext = """
 # function handle and make a text string for news article
 def get_articles_as_text(articles):
   # Getting news for n articles
-  article_string="\n Headlines \n"
+  article_string="\n 🗞 Headlines🗞 \n"
   for n in articles:
     name = n['source']['name']
     author = n['author']
     title = n['title']
     url = n['url']
     article_string += f""" 
-    title: {title}  
-    author: {author} 
-    url: {url} 
+    📩 Title: {title}  
+    ✒️ Author: {author} 
+    🌐 Url: {url} 
     Provided By {name} 
     -------- """
   return article_string
@@ -54,6 +54,7 @@ def search_for_news(update, context):
 
 def news(update, context):
     category_q = update.message.text
+    print(category_q)
     try:
       headlineArr = get_headlines(category_q,"5")
       reply_news = get_articles_as_text(headlineArr)
