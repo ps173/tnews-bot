@@ -33,4 +33,3 @@ def search_headline(query):
 
 if __name__ == "__main__":
      print(get_headlines("sports","1"))
-
