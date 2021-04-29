@@ -36,7 +36,7 @@ def search_for_news(update, context):
 def news(update, context):
     category_q = update.message.text
     if "/news" in category_q:
-      category_q = category_q[5:]
+      category_q = category_q[6:]
       print(category_q)
       try:
         headlineArr = get_headlines(category_q,"5")
