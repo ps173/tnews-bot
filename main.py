@@ -29,9 +29,14 @@ def help(update, context):
 
 def search_for_news(update, context):
     search_q = update.message.text
-    newsarr = search_headline(search_q)
-    reply_news = get_articles_as_text(newsarr)
-    update.message.reply_text(f'{reply_news}')
+    if "/search" in search_q:
+      search_q = search_q[8:]
+      print(search_q)
+      newsarr = search_headline(search_q)
+      reply_news = get_articles_as_text(newsarr)
+      update.message.reply_text(f'{reply_news}')
+    else : 
+       update.message.reply_text('I cannot understand the input try /help ')
 
 def news(update, context):
     category_q = update.message.text
@@ -45,14 +50,14 @@ def news(update, context):
       except :
         print(error) 
         update.message.reply_text('📡 Nothing Check your internet 📡')
-
+    else : 
+        update.message.reply_text('I cannot understand the input try /help ')
 
 def error(update, context):
     update.message.reply_text('Ummm I think something is not fine')
 
 def text(update, context):
-    text_received = update.message.text
-    update.message.reply_text(f'did you say {text_received}')
+    update.message.reply_text('I cannot understand')
 
 def main():
   TOKEN = os.getenv('BOT_TOKEN') 

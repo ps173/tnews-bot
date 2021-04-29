@@ -10,7 +10,7 @@ In telegram search for t173bot and select tnewsbot
  - /help  
  - /search (search query)  
  - /news (category)  
-
+    (category can be technology, business, sports, entertainment, general, health, science )
 
 # TODO ✅
 

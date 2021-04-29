@@ -17,7 +17,7 @@ def get_headlines(category,pageSize):
 
 def search_headline(query):
     try:
-        res = requests.get(f"https://newsapi.org/v2/everything?qInTitle={query}&pageSize=4&sortBy=relevancy&apiKey={api_key}")
+        res = requests.get(f"https://newsapi.org/v2/everything?qInTitle={query}&pageSize=4&language=en&sortBy=relevancy&apiKey={api_key}")
         string = json.dumps(res.json())
         headlines = json.loads(string)
         return headlines['articles']
